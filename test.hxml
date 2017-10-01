@@ -1,0 +1,5 @@
+-lib hlfreetype
+-lib heaps
+-lib hldx
+-hl test.hl
+-main test.Test

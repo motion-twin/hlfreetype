@@ -1,0 +1,10 @@
+/Release
+/ReleaseVS2013
+/Debug
+*.VC.*
+*.user
+/.vs
+/*.hl
+/dump
+/freetype-windows-binaries
+/*.ttf

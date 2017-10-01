@@ -1,0 +1,11 @@
+{
+ "name": "hlfreetype",
+ "url" : "https://github.com/motion-twin/hlfreetype",
+ "license": "MIT",
+ "tags": ["freetype"],
+ "description": "Hashlink wrapper for Freetype",
+ "version": "1.0.0",
+ "releasenote": "Initial Release",
+ "contributors": ["pperidont"],
+ "dependencies": { }
+}
