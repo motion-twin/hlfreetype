@@ -63,6 +63,14 @@ HL_PRIM int HL_NAME(get_flags)(hl_ftface *f) {
 	return f->face->face_flags;
 }
 
+HL_PRIM int HL_NAME(get_height)(hl_ftface *f) {
+	return f->face->height;
+}
+
+HL_PRIM int HL_NAME(get_units_per_em)(hl_ftface *f) {
+	return f->face->units_per_EM;
+}
+
 HL_PRIM char *HL_NAME(get_family_name)(hl_ftface *f) {
 	return f->face->family_name;
 }
@@ -108,6 +116,8 @@ HL_PRIM void HL_NAME(render_glyph)(hl_ftface *f, int mode, hl_ftbmp *bmp) {
 DEFINE_PRIM(_LIBRARY, init, _NO_ARG);
 DEFINE_PRIM(_FACE, new_memory_face, _LIBRARY _BYTES _I32 _I32);
 DEFINE_PRIM(_I32, get_flags, _FACE);
+DEFINE_PRIM(_I32, get_height, _FACE);
+DEFINE_PRIM(_I32, get_units_per_em, _FACE);
 DEFINE_PRIM(_BYTES, get_family_name, _FACE);
 DEFINE_PRIM(_BYTES, get_style_name, _FACE);
 DEFINE_PRIM(_I32, get_char_index, _FACE _I32);

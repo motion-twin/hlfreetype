@@ -4,11 +4,12 @@ import freetype.Library;
 class Test extends hxd.App {
 
 	static function main(){
+		hxd.Res.initLocal();
 		new Test();
 	}
 
 	override function init(){
-		var face = new freetype.Library().loadFace(sys.io.File.getBytes("NotoSans-Regular.ttf"));
+		var face = new freetype.Library().loadFace(hxd.Res.NotoSans_Regular.entry.getBytes());
 		trace(face.familyName+" "+face.styleName);
 		face.setSize( 12 );
 		

@@ -7,4 +7,5 @@
 /*.hl
 /dump
 /freetype-windows-binaries
-/*.ttf
+*.ttf
+*.otf

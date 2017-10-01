@@ -40,6 +40,9 @@ class Bitmap {
 		return @:privateAccess new PixelMode(pixel_mode);
 	}
 
+	public var height(get,never) : UInt;
+	inline function get_height() return rows;
+
 	#if heaps
 	public function writePixels( dest : hxd.Pixels, tx : Int = 0, ty : Int = 0 ){
 		switch( [pixelMode, dest.format] ){
@@ -186,6 +189,12 @@ class Face {
 	public var flags(get,never) : FaceFlags;
 	inline function get_flags() return getFlags(face);
 
+	public var height(get,never) : Int;
+	inline function get_height() return getHeight(face);
+
+	public var unitsPerEM(get,never) : Int;
+	inline function get_unitsPerEM() return getUnitsPerEM(face);	
+
 	public var familyName(get,never) : String;
 	inline function get_familyName(){
 		var n = getFamilyName(face);
@@ -227,6 +236,16 @@ class Face {
 	@:hlNative("freetype", "get_flags")
 	static function getFlags( face : FacePtr ) : FaceFlags {
 		return @:privateAccess new FaceFlags(0);
+	}
+
+	@:hlNative("freetype", "get_height")
+	static function getHeight( face : FacePtr ) : Int {
+		return 0;
+	}
+
+	@:hlNative("freetype", "get_units_per_em")
+	static function getUnitsPerEM( face : FacePtr ) : Int {
+		return 0;
 	}
 
 	@:hlNative("freetype", "get_family_name")
