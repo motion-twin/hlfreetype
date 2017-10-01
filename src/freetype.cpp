@@ -30,6 +30,17 @@ struct _hl_ftface {
 	FT_Face face;
 };
 
+typedef struct _hl_ftbmp hl_ftbmp;
+struct _hl_ftbmp {
+	hl_type *t;
+	unsigned int rows;
+	unsigned int width;
+	int pitch;
+	char *buffer;
+	unsigned short num_grays;
+	char pixel_mode;
+};
+
 
 #define FTERR(cmd) { FT_Error __ret = cmd; if( __ret ) hl_error_msg(USTR("Freetype error %#02x line %d"), __ret, __LINE__); }
 
@@ -78,9 +89,17 @@ HL_PRIM void HL_NAME(load_glyph)(hl_ftface *f, int index, int flags, ft_struct<F
 		memcpy(&metrics->value, &f->face->glyph->metrics, sizeof(FT_Glyph_Metrics));
 }
 
-HL_PRIM void HL_NAME(render_glyph)(hl_ftface *f, int mode, ft_struct<FT_Bitmap> *bmp) {
+HL_PRIM void HL_NAME(render_glyph)(hl_ftface *f, int mode, hl_ftbmp *bmp) {
+	FT_Bitmap *b;
 	FTERR(FT_Render_Glyph(f->face->glyph, (FT_Render_Mode)mode));
-	memcpy(&bmp->value, &f->face->glyph->bitmap, sizeof(FT_Bitmap));
+	b = &f->face->glyph->bitmap;
+	bmp->rows = b->rows;
+	bmp->width = b->width;
+	bmp->pitch = b->pitch;
+	bmp->num_grays = b->num_grays;
+	bmp->pixel_mode = b->pixel_mode;
+	bmp->buffer = (char*)hl_gc_alloc_noptr(b->rows*b->pitch);
+	memcpy(bmp->buffer, b->buffer, b->rows*b->pitch);
 }
 
 #define _LIBRARY _ABSTRACT(hl_ftlib)

@@ -32,10 +32,44 @@ class Bitmap {
 	public var pitch : Int;
 	public var buffer : hl.Bytes;
 	public var num_grays : hl.UI16;
-	public var pixel_mode : hl.UI8;
-	public var palette_mode : hl.UI8;
-	public var palette : hl.Bytes;
+	var pixel_mode : hl.UI8;
 	public function new(){}
+
+	public var pixelMode(get,never) : PixelMode;
+	inline function get_pixelMode() : PixelMode{
+		return @:privateAccess new PixelMode(pixel_mode);
+	}
+
+	#if heaps
+	public function writePixels( dest : hxd.Pixels, tx : Int = 0, ty : Int = 0 ){
+		switch( [pixelMode, dest.format] ){
+			case [Gray, BGRA], [Gray, RGBA], [Gray, ARGB] if( num_grays == 256 ):
+				for( y in 0...rows )
+				for( x in 0...width ){
+					dest.setPixel(tx+x, ty+y, buffer.getUI8(y*pitch+x)<<24 | 0xFFFFFF );
+				}
+			// case [Gray, ALPHA8] if( num_grays == 256 ):
+			// 	for( y in 0...rows )
+			// 		@:privateAccess dest.bytes.b.blit((ty+y)*dest.width + tx, buffer, y*pitch, width);
+			default: throw "Not implemented "+pixelMode+" to "+dest.format;
+		}
+	}
+	#end
+}
+
+@:enum abstract PixelMode(Int) {
+	function new(v:Int){
+		this = v;
+	}
+
+	var None = 0;
+	var Mono = 1;
+	var Gray = 2;
+	var Gray2 = 3;
+	var Gray4 = 4;
+	var LCD = 5;
+	var LCDV = 6;
+	var BGRA = 7;
 }
 
 @:enum abstract FaceFlags(Int) to Int {
