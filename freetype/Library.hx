@@ -26,6 +26,19 @@ class GlyphMetrics {
 }
 
 @:keep
+class FaceMetrics {
+	public var x_ppem : hl.UI16;
+	public var y_ppem : hl.UI16;
+	public var scaleX : Int;
+	public var scaleY : Int;
+	public var ascender : Int;
+	public var descender : Int;
+	public var height : Int;
+	public var maxAdvance : Int;
+	public function new(){}
+}
+
+@:keep
 class Bitmap {
 	public var rows : UInt;
 	public var width : UInt;
@@ -207,6 +220,12 @@ class Face {
 		return n == null ? null : @:privateAccess String.fromUTF8(n);
 	};
 
+	public function getMetrics(){
+		var m = new FaceMetrics();
+		ftGetFaceMetrics(face, m);
+		return m;
+	}
+
 	public inline function charIndex( char : Int ) : GlyphIndex {
 		return getCharIndex(face, char);
 	}
@@ -246,6 +265,10 @@ class Face {
 	@:hlNative("freetype", "get_units_per_em")
 	static function getUnitsPerEM( face : FacePtr ) : Int {
 		return 0;
+	}
+
+	@:hlNative("freetype", "get_face_metrics")
+	static function ftGetFaceMetrics( face : FacePtr, metrics : Dynamic ) : Void {
 	}
 
 	@:hlNative("freetype", "get_family_name")

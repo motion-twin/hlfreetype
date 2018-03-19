@@ -71,6 +71,11 @@ HL_PRIM int HL_NAME(get_units_per_em)(hl_ftface *f) {
 	return f->face->units_per_EM;
 }
 
+HL_PRIM void HL_NAME(get_face_metrics)(hl_ftface *f, ft_struct<FT_Size_Metrics> *metrics) {
+	if( metrics )
+		memcpy(&metrics->value, &f->face->size->metrics, sizeof(FT_Size_Metrics));
+}
+
 HL_PRIM char *HL_NAME(get_family_name)(hl_ftface *f) {
 	return f->face->family_name;
 }
@@ -118,6 +123,7 @@ DEFINE_PRIM(_FACE, new_memory_face, _LIBRARY _BYTES _I32 _I32);
 DEFINE_PRIM(_I32, get_flags, _FACE);
 DEFINE_PRIM(_I32, get_height, _FACE);
 DEFINE_PRIM(_I32, get_units_per_em, _FACE);
+DEFINE_PRIM(_VOID, get_face_metrics, _FACE _DYN);
 DEFINE_PRIM(_BYTES, get_family_name, _FACE);
 DEFINE_PRIM(_BYTES, get_style_name, _FACE);
 DEFINE_PRIM(_I32, get_char_index, _FACE _I32);
