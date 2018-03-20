@@ -174,7 +174,7 @@ class Library {
 	}
 
 	public function loadFace( data : haxe.io.Bytes, index = 0 ) : Face {
-		return @:privateAccess new Face( this, newMemoryFace(lib, @:privateAccess data.b, data.length, index ) );
+		return @:privateAccess new Face( this, data, newMemoryFace(lib, @:privateAccess data.b, data.length, index ) );
 	}
 
 	//
@@ -192,10 +192,12 @@ class Library {
 class Face {
 
 	public var library(default,null) : Library;
+	var data : haxe.io.Bytes;
 	var face : FacePtr;
 
-	function new( lib : Library, face : FacePtr ){
+	function new( lib : Library, data : haxe.io.Bytes, face : FacePtr ){
 		this.library = lib;
+		this.data = data;
 		this.face = face;
 	}
 
